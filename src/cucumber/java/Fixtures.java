@@ -4,14 +4,14 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.dropwizard.testing.DropwizardTestSupport;
-import uk.co.thirstybear.blink1service.MyApp;
+import uk.co.thirstybear.blink1service.Blink1Application;
 
 import static io.dropwizard.testing.ResourceHelpers.resourceFilePath;
 
 public class Fixtures {
 
     public static final DropwizardTestSupport SUPPORT =
-            new DropwizardTestSupport(MyApp.class, resourceFilePath("my-app-config.yaml"));
+            new DropwizardTestSupport(Blink1Application.class, resourceFilePath("my-app-config.yaml"));
 
     @Before
     public void startServer() {
