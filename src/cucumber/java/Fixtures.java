@@ -11,7 +11,7 @@ import static io.dropwizard.testing.ResourceHelpers.resourceFilePath;
 public class Fixtures {
 
     public static final DropwizardTestSupport SUPPORT =
-            new DropwizardTestSupport(Blink1Application.class, resourceFilePath("my-app-config.yaml"));
+            new DropwizardTestSupport(Blink1Application.class, resourceFilePath("blinkapp-config.yaml"));
 
     @Before
     public void startServer() {
