@@ -12,8 +12,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 
 import static io.dropwizard.testing.ResourceHelpers.resourceFilePath;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
+import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 
 
 public class Fixtures {
@@ -51,9 +50,6 @@ public class Fixtures {
                 .request()
                 .get();
 
-        assertThat(response.readEntity(String.class), equalTo("wibble"));
+        assertEquals("{\"pattern\":\"build_passing\"}", response.readEntity(String.class), true);
     }
-
-
-
 }
