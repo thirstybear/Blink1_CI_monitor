@@ -13,6 +13,6 @@ public class JenkinsResource {
     @GET
     @Timed
     public String getBuildStatus() {
-        return "{\"pattern\":\"build_passing\"}";
+        return "{\"pattern\":\"build_ok\"}";
     }
 }

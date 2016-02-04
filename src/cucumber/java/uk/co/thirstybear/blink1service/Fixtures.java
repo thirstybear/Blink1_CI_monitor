@@ -50,6 +50,6 @@ public class Fixtures {
                 .request()
                 .get();
 
-        assertEquals("{\"pattern\":\"build_passing\"}", response.readEntity(String.class), true);
+        assertEquals("{\"pattern\":\"build_ok\"}", response.readEntity(String.class), true);
     }
 }
