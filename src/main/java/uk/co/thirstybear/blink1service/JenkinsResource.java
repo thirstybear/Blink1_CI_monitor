@@ -39,8 +39,5 @@ public class JenkinsResource {
         } catch (IOException e) {
             return String.format("{\"error\":\"%s\"}", e.getMessage());
         }
-
-
-
     }
 }
