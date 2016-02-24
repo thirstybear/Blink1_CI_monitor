@@ -10,3 +10,7 @@ Feature: Status matches build
     And the build is broken
     When the Blink server is queried
     Then the light is red
+
+    Given a Jenkins server at unknownhost:8080/myjob/tst
+    When the Blink server is queried
+    Then the light flashes red

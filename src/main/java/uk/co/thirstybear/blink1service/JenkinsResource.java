@@ -12,7 +12,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 
 @Path("/jenkins")
 @Produces(MediaType.APPLICATION_JSON)
@@ -20,15 +19,15 @@ public class JenkinsResource {
     @GET
     @Timed
     public String getBuildStatus(@QueryParam("url") String targetUrl) {
-        Client client = new JerseyClientBuilder().build();
-        Response response = client.target(
-                String.format("http://%s/api/json?tree=color", targetUrl))
-                .request()
-                .get();
-
-        final String jsonResponse = response.readEntity(String.class);
-        ObjectMapper mapper = new ObjectMapper();
         try {
+            Client client = new JerseyClientBuilder().build();
+            Response response = client.target(
+                    String.format("http://%s/api/json?tree=color", targetUrl))
+                    .request()
+                    .get();
+
+            final String jsonResponse = response.readEntity(String.class);
+            ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(jsonResponse);
             JsonNode buildStatus = root.get("color");
 
@@ -37,8 +36,8 @@ public class JenkinsResource {
             } else {
                 return "{\"pattern\":\"build_broken\"}";
             }
-        } catch (IOException e) {
-            return String.format("{\"error\":\"%s\"}", e.getMessage());
+        } catch (Exception e) {
+            return "{\"pattern\":\"build_error\"}";
         }
     }
 }

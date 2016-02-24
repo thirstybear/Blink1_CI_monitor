@@ -40,8 +40,10 @@ public class Fixtures {
 
     @After
     public void stopMockJenkinsServer() {
-        mockJenkinsServer.stop();
-        mockJenkinsServer = null;
+        if (mockJenkinsServer != null) {
+            mockJenkinsServer.stop();
+            mockJenkinsServer = null;
+        }
     }
 
     @Given("^a Jenkins server at ([^\"]*)$")
@@ -100,6 +102,12 @@ public class Fixtures {
         assertEquals("{\"pattern\":\"build_broken\"}", responseAsString, true);
     }
 
+    @Then("^the light flashes red$")
+    public void theLightFlashesRed() throws Throwable {
+        assertEquals("{\"pattern\":\"build_error\"}", responseAsString, true);
+
+    }
+
     private String toString(Response response) {
         return response.readEntity(String.class);
     }
@@ -112,4 +120,4 @@ public class Fixtures {
                         .withBody("{\"color\":\"" + buildColor + "\"}")));
     }
 
-}
+ }
