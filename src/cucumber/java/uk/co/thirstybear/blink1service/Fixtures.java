@@ -15,6 +15,8 @@ import javax.ws.rs.core.Response;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static io.dropwizard.testing.ResourceHelpers.resourceFilePath;
+import static java.lang.Integer.parseInt;
+import static org.junit.Assert.*;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 
 
@@ -23,16 +25,12 @@ public class Fixtures {
     public static final DropwizardTestSupport SUPPORT =
             new DropwizardTestSupport(Blink1Application.class, resourceFilePath("blinkapp-config.yaml"));
     private WireMockServer mockJenkinsServer;
+    private String responseAsString;
+    private String targetJenkinsUrl;
 
     @Before
     public void startBlinkServer() {
         SUPPORT.before();
-    }
-
-    @Before
-    public void startMockJenkinsServer() {
-        mockJenkinsServer = new WireMockServer(wireMockConfig().port(8888));
-        mockJenkinsServer.start();
     }
 
     @After
@@ -43,14 +41,28 @@ public class Fixtures {
     @After
     public void stopMockJenkinsServer() {
         mockJenkinsServer.stop();
+        mockJenkinsServer = null;
     }
 
-    @Given("^a Jenkins server$")
-    public void a_Jenkins_server() throws Throwable {
-        // TODO refactor this step out? Doesn't do much!
+    @Given("^a Jenkins server at ([^\"]*)$")
+    public void a_Jenkins_server_at(String jenkinsUrl) throws Throwable {
+        targetJenkinsUrl = jenkinsUrl;
+        final String[] strings = jenkinsUrl.split(":");
+        if (strings.length != 2) {
+            fail ("Format for host needs to be <ip>:<port>");
+        }
+
+        if (mockJenkinsServer != null) {
+            stopMockJenkinsServer();
+        }
+
+        if ("localhost".equals(strings[0])) {
+            mockJenkinsServer = new WireMockServer(wireMockConfig().port(parseInt(strings[1].split("/")[0])));
+            mockJenkinsServer.start();
+        }
     }
 
-    @When("^the build is clean$")
+    @Given("^the build is clean$")
     public void the_build_is_clean() throws Throwable {
         setMockJenkinsToReturn("blue");
     }
@@ -59,27 +71,33 @@ public class Fixtures {
     public void the_light_is_green() throws Throwable {
         Client client = new JerseyClientBuilder().build();
         Response response = client.target(
-                String.format("http://localhost:%d/jenkins", SUPPORT.getLocalPort()))
+                String.format("http://localhost:%d/jenkins?url=%s", SUPPORT.getLocalPort(), targetJenkinsUrl))
                 .request()
                 .get();
 
         assertEquals("{\"pattern\":\"build_ok\"}", toString(response), true);
     }
 
-    @When("^the build is broken$")
+    @Given("^the build is broken$")
     public void the_build_is_broken() throws Throwable {
         setMockJenkinsToReturn("red");
     }
 
-    @Then("^the light is red$")
-    public void the_light_is_red() throws Throwable {
+    @When("^the Blink server is queried$")
+    public void the_Blink_server_is_queried() throws Throwable {
         Client client = new JerseyClientBuilder().build();
         Response response = client.target(
-                String.format("http://localhost:%d/jenkins", SUPPORT.getLocalPort()))
+                String.format("http://localhost:%d/jenkins?url=%s", SUPPORT.getLocalPort(), targetJenkinsUrl))
                 .request()
                 .get();
 
-        assertEquals("{\"pattern\":\"build_broken\"}", toString(response), true);
+        responseAsString = toString(response);
+    }
+
+
+    @Then("^the light is red$")
+    public void the_light_is_red() throws Throwable {
+        assertEquals("{\"pattern\":\"build_broken\"}", responseAsString, true);
     }
 
     private String toString(Response response) {

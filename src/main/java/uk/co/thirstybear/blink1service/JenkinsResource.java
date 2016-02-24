@@ -8,6 +8,7 @@ import org.glassfish.jersey.client.JerseyClientBuilder;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,10 +19,10 @@ import java.io.IOException;
 public class JenkinsResource {
     @GET
     @Timed
-    public String getBuildStatus() {
+    public String getBuildStatus(@QueryParam("url") String targetUrl) {
         Client client = new JerseyClientBuilder().build();
         Response response = client.target(
-                String.format("http://localhost:%d/job/test/api/json?tree=color", 8888))
+                String.format("http://%s/api/json?tree=color", targetUrl))
                 .request()
                 .get();
 
