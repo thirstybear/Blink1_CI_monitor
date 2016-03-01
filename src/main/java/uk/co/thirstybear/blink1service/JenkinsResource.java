@@ -12,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/jenkins")
 @Produces(MediaType.APPLICATION_JSON)
@@ -29,15 +30,16 @@ public class JenkinsResource {
             final String jsonResponse = response.readEntity(String.class);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(jsonResponse);
-            JsonNode buildStatus = root.get("color");
+            List<JsonNode> buildStatuses = root.findValues("color");
 
-            if ("blue".equals(buildStatus.textValue())) {
-                return "{\"pattern\":\"build_ok\"}";
-            } else {
-                return "{\"pattern\":\"build_broken\"}";
+            for (JsonNode buildStatus : buildStatuses) {
+                if ("red".equals(buildStatus.textValue())) {
+                    return "{\"pattern\":\"build_broken\"}";
+                }
             }
         } catch (Exception e) {
             return "{\"pattern\":\"build_error\"}";
         }
+        return  "{\"pattern\":\"build_ok\"}";
     }
 }

@@ -27,6 +27,7 @@ public class Fixtures {
     private WireMockServer mockJenkinsServer;
     private String responseAsString;
     private String targetJenkinsUrl;
+    private JenkinsResponse mockJenkinsResponse;
 
     @Before
     public void startBlinkServer() {
@@ -46,22 +47,16 @@ public class Fixtures {
         }
     }
 
-    @Given("^a Jenkins server at ([^\"]*)$")
-    public void a_Jenkins_server_at(String jenkinsUrl) throws Throwable {
-        targetJenkinsUrl = jenkinsUrl;
-        final String[] strings = jenkinsUrl.split(":");
-        if (strings.length != 2) {
-            fail ("Format for host needs to be <ip>:<port>");
-        }
+    @Given("^a Jenkins job at ([^\"]*)$")
+    public void a_Jenkins_job_at(String jenkinsUrl) throws Throwable {
+        mockJenkinsResponse = new JenkinsSingleJobResponse();
+        setUpMockJenkins(jenkinsUrl);
+    }
 
-        if (mockJenkinsServer != null) {
-            stopMockJenkinsServer();
-        }
-
-        if ("localhost".equals(strings[0])) {
-            mockJenkinsServer = new WireMockServer(wireMockConfig().port(parseInt(strings[1].split("/")[0])));
-            mockJenkinsServer.start();
-        }
+    @Given("^a Jenkins view at ([^\"]*)$")
+    public void a_Jenkins_view_at(String jenkinsUrl) throws Throwable {
+        mockJenkinsResponse = new JenkinsViewResponse();
+        setUpMockJenkins(jenkinsUrl);
     }
 
     @Given("^the build is clean$")
@@ -96,11 +91,11 @@ public class Fixtures {
         responseAsString = toString(response);
     }
 
-
     @Then("^the light is red$")
     public void the_light_is_red() throws Throwable {
         assertEquals("{\"pattern\":\"build_broken\"}", responseAsString, true);
     }
+
 
     @Then("^the light flashes red$")
     public void theLightFlashesRed() throws Throwable {
@@ -112,12 +107,29 @@ public class Fixtures {
         return response.readEntity(String.class);
     }
 
+    private void setUpMockJenkins(String jenkinsUrl) {
+        targetJenkinsUrl = jenkinsUrl;
+        final String[] strings = jenkinsUrl.split(":");
+        if (strings.length != 2) {
+            fail ("Format for host needs to be <ip>:<port>");
+        }
+
+        if (mockJenkinsServer != null) {
+            stopMockJenkinsServer();
+        }
+
+        if ("localhost".equals(strings[0])) {
+            mockJenkinsServer = new WireMockServer(wireMockConfig().port(parseInt(strings[1].split("/")[0])));
+            mockJenkinsServer.start();
+        }
+    }
+
     private void setMockJenkinsToReturn(final String buildColor) {
         mockJenkinsServer.stubFor(get(urlPathMatching(".*/api/json\\?tree=color"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
-                        .withBody("{\"color\":\"" + buildColor + "\"}")));
+                        .withBody(mockJenkinsResponse.getResponse(buildColor))));
     }
 
  }

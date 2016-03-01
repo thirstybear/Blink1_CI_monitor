@@ -1,0 +1,5 @@
+id:1
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
