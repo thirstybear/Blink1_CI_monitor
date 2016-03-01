@@ -125,7 +125,7 @@ public class Fixtures {
     }
 
     private void setMockJenkinsToReturn(final String buildColor) {
-        mockJenkinsServer.stubFor(get(urlPathMatching(".*/api/json\\?tree=color"))
+        mockJenkinsServer.stubFor(get(urlPathMatching(".*/api/json"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")

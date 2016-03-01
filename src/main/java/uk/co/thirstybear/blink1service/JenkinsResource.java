@@ -23,7 +23,7 @@ public class JenkinsResource {
         try {
             Client client = new JerseyClientBuilder().build();
             Response response = client.target(
-                    String.format("http://%s/api/json?tree=color", targetUrl))
+                    String.format("http://%s/api/json", targetUrl))
                     .request()
                     .get();
 
