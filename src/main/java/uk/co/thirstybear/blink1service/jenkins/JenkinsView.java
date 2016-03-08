@@ -1,4 +1,4 @@
-package uk.co.thirstybear.blink1service;
+package uk.co.thirstybear.blink1service.jenkins;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package uk.co.thirstybear.blink1service;
+package uk.co.thirstybear.blink1service.jenkins;
 
 import org.apache.commons.io.IOUtils;
 

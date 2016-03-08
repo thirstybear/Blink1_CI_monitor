@@ -1,6 +1,8 @@
 package uk.co.thirstybear.blink1service;
 
 import com.codahale.metrics.annotation.Timed;
+import uk.co.thirstybear.blink1service.jenkins.JenkinsState;
+import uk.co.thirstybear.blink1service.jenkins.JenkinsView;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
