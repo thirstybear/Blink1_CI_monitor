@@ -6,8 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-import static uk.co.thirstybear.blink1service.JenkinsState.FAIL;
-import static uk.co.thirstybear.blink1service.JenkinsState.PASS;
+import static uk.co.thirstybear.blink1service.jenkins.JenkinsState.FAIL;
+import static uk.co.thirstybear.blink1service.jenkins.JenkinsState.PASS;
+
 
 public class JenkinsView {
 
