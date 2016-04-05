@@ -1,6 +1,6 @@
-package uk.co.thirstybear.blink1service;
+package uk.co.thirstybear.blink1service.jenkins;
 
-public class JenkinsViewResponse implements uk.co.thirstybear.blink1service.JenkinsResponse {
+public class JenkinsViewResponse implements JenkinsResponse {
     private final static String json = "{\n" +
             "  \"description\": null,\n" +
             "  \"jobs\": [\n" +

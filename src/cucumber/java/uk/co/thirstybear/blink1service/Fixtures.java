@@ -8,6 +8,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.dropwizard.testing.DropwizardTestSupport;
 import org.glassfish.jersey.client.JerseyClientBuilder;
+import uk.co.thirstybear.blink1service.jenkins.JenkinsResponse;
+import uk.co.thirstybear.blink1service.jenkins.JenkinsSingleJobResponse;
+import uk.co.thirstybear.blink1service.jenkins.JenkinsViewResponse;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;

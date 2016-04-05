@@ -1,8 +1,6 @@
 package uk.co.thirstybear.blink1service.jenkins;
 
 import org.junit.Test;
-import uk.co.thirstybear.blink1service.JenkinsSingleJobResponse;
-import uk.co.thirstybear.blink1service.JenkinsViewResponse;
 
 import java.io.IOException;
 
