@@ -8,7 +8,7 @@ public enum Blink1Action {
 
     private CommandLineRunner command;
 
-    private Blink1Action(String command) {
+    Blink1Action(String command) {
         this.command = new CommandLineRunner(command);
     }
 
