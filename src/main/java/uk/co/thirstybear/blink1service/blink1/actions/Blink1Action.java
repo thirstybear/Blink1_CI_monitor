@@ -1,9 +1,9 @@
 package uk.co.thirstybear.blink1service.blink1.actions;
 
 public abstract class Blink1Action {
-    protected String command;
+    private String command;
 
-    protected Blink1Action(String command) {
+    Blink1Action(String command) {
         this.command = command;
     }
 
