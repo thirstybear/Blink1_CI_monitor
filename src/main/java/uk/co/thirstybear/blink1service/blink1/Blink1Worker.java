@@ -5,12 +5,12 @@ import static uk.co.thirstybear.blink1service.blink1.actions.Blink1Action.*;
 public class Blink1Worker {
 
     public void buildFailed() {
-        FLASHRED.invoke();
-        SOLIDRED.invoke();
+        FLASHRED.apply();
+        SOLIDRED.apply();
     }
 
     public void buildPassed() {
-        FLASHGREEN.invoke();
-        SOLIDGREEN.invoke();
+        FLASHGREEN.apply();
+        SOLIDGREEN.apply();
     }
 }
