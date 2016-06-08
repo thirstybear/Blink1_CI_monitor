@@ -1,6 +1,8 @@
 package uk.co.thirstybear.blink1service.blink1.actions;
 
-public class CommandLineRunner {
+import java.io.InputStream;
+
+class CommandLineRunner {
 
     private final String command;
 
@@ -8,13 +10,19 @@ public class CommandLineRunner {
         this.command = command;
     }
 
-    // TODO IMPORTANT - need to consume the outputs std/err!!
     void run() {
         try {
             final Process process = Runtime.getRuntime().exec(command);
+            consumeStream(process.getInputStream());
+            consumeStream(process.getErrorStream());
             process.waitFor();
         } catch (Throwable e) {
             e.printStackTrace();
         }
+    }
+
+    private void consumeStream(InputStream stream) {
+        StreamSlurper slurper = new StreamSlurper(stream);
+        slurper.start();
     }
 }
