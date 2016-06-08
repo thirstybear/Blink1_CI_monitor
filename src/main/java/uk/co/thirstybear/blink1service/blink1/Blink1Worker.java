@@ -1,13 +1,16 @@
 package uk.co.thirstybear.blink1service.blink1;
 
-import uk.co.thirstybear.blink1service.blink1.actions.FlashRedAction;
-import uk.co.thirstybear.blink1service.blink1.actions.SolidRedAction;
+import static uk.co.thirstybear.blink1service.blink1.actions.Blink1Action.*;
 
 public class Blink1Worker {
 
     public void buildFailed() {
-        new FlashRedAction().invoke();
-        new SolidRedAction().invoke();
+        FLASHRED.invoke();
+        SOLIDRED.invoke();
     }
 
+    public void buildPassed() {
+        FLASHGREEN.invoke();
+        SOLIDGREEN.invoke();
+    }
 }
