@@ -22,7 +22,7 @@ class CommandLineRunner {
     }
 
     private void consumeStream(InputStream stream) {
-        StreamSlurper slurper = new StreamSlurper(stream);
+        StreamSlurper slurper = new StreamSlurper(stream, new RedirectToStdOut());
         slurper.start();
     }
 }
