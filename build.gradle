@@ -4,7 +4,7 @@ plugins{
     id 'com.github.samueltbrown.cucumber' version '0.9'
 }
 
-mainClassName = "uk.co.thirstybear.blink1service.Blink1Application"
+mainClassName = "uk.co.thirstybear.blink1jenkins.ServerPoller"
 group 'uk.co.thirstybear'
 version '1.0-SNAPSHOT'
 
@@ -36,16 +36,10 @@ cucumber {
     strict = true
 }
 
-// Configure the run task to start the Dropwizard service
-run {
-    args 'server', './src/main/resources/blinkapp-config.yaml'
-
-}
-
 jar {
     manifest {
         attributes "Implementation-Title": "Blink1Service"
-        attributes "Main-Class": "uk.co.thirstybear.blink1service.Blink1Application"
+        attributes "Main-Class": "uk.co.thirstybear.blink1jenkins.ServerPoller"
     }
 
     doFirst {
