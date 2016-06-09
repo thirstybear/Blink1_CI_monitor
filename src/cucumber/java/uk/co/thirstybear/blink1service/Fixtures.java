@@ -2,45 +2,31 @@ package uk.co.thirstybear.blink1service;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import io.dropwizard.testing.DropwizardTestSupport;
-import org.glassfish.jersey.client.JerseyClientBuilder;
+import uk.co.thirstybear.blink1service.blink1.Blink1Worker;
 import uk.co.thirstybear.blink1service.jenkins.JenkinsResponse;
 import uk.co.thirstybear.blink1service.jenkins.JenkinsSingleJobResponse;
+import uk.co.thirstybear.blink1service.jenkins.JenkinsView;
 import uk.co.thirstybear.blink1service.jenkins.JenkinsViewResponse;
 
-import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-import static io.dropwizard.testing.ResourceHelpers.resourceFilePath;
 import static java.lang.Integer.parseInt;
 import static org.junit.Assert.*;
-import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 
 public class Fixtures {
 
-    public static final DropwizardTestSupport SUPPORT =
-            new DropwizardTestSupport(Blink1Application.class, resourceFilePath("blinkapp-config.yaml"));
     private WireMockServer mockJenkinsServer;
     private String responseAsString;
     private String targetJenkinsUrl;
     private JenkinsResponse mockJenkinsResponse;
-
-    @Before
-    public void startBlinkServer() {
-        SUPPORT.before();
-    }
-
-    @After
-    public void stopBlinkServer() {
-        SUPPORT.after();
-    }
 
     @After
     public void stopMockJenkinsServer() {
@@ -62,20 +48,18 @@ public class Fixtures {
         setUpMockJenkins(jenkinsUrl);
     }
 
-    @Given("^the build is clean$")
+    @When("^the build is clean$")
     public void the_build_is_clean() throws Throwable {
         setMockJenkinsToReturn("blue");
     }
 
     @Then("^the light is green$")
     public void the_light_is_green() throws Throwable {
-        Client client = new JerseyClientBuilder().build();
-        Response response = client.target(
-                String.format("http://localhost:%d/jenkins?url=%s", SUPPORT.getLocalPort(), targetJenkinsUrl))
-                .request()
-                .get();
+        Blink1Worker mockBlink1Worker = mock(Blink1Worker.class);
+        new ServerPoller(new JenkinsView(targetJenkinsUrl), mockBlink1Worker).run();
 
-        assertEquals("{\"pattern\":\"build_ok\"}", toString(response), true);
+        verify(mockBlink1Worker).buildPassed();
+        verifyNoMoreInteractions(mockBlink1Worker);
     }
 
     @Given("^the build is broken$")
@@ -83,27 +67,23 @@ public class Fixtures {
         setMockJenkinsToReturn("red");
     }
 
-    @When("^the Blink server is queried$")
-    public void the_Blink_server_is_queried() throws Throwable {
-        Client client = new JerseyClientBuilder().build();
-        Response response = client.target(
-                String.format("http://localhost:%d/jenkins?url=%s", SUPPORT.getLocalPort(), targetJenkinsUrl))
-                .request()
-                .get();
-
-        responseAsString = toString(response);
-    }
-
     @Then("^the light is red$")
     public void the_light_is_red() throws Throwable {
-        assertEquals("{\"pattern\":\"build_broken\"}", responseAsString, true);
+        Blink1Worker mockBlink1Worker = mock(Blink1Worker.class);
+        new ServerPoller(new JenkinsView(targetJenkinsUrl), mockBlink1Worker).run();
+
+        verify(mockBlink1Worker).buildFailed();
+        verifyNoMoreInteractions(mockBlink1Worker);
     }
 
 
     @Then("^the light flashes red$")
     public void theLightFlashesRed() throws Throwable {
-        assertEquals("{\"pattern\":\"build_error\"}", responseAsString, true);
+        Blink1Worker mockBlink1Worker = mock(Blink1Worker.class);
+        new ServerPoller(new JenkinsView(targetJenkinsUrl), mockBlink1Worker).run();
 
+        verify(mockBlink1Worker).oops();
+        verifyNoMoreInteractions(mockBlink1Worker);
     }
 
     private String toString(Response response) {
