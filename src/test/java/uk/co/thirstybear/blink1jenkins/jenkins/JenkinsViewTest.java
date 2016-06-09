@@ -1,4 +1,4 @@
-package uk.co.thirstybear.blink1service.jenkins;
+package uk.co.thirstybear.blink1jenkins.jenkins;
 
 import org.junit.Test;
 
@@ -7,8 +7,8 @@ import java.io.IOException;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static uk.co.thirstybear.blink1service.jenkins.JenkinsState.FAIL;
-import static uk.co.thirstybear.blink1service.jenkins.JenkinsState.PASS;
+import static uk.co.thirstybear.blink1jenkins.jenkins.JenkinsState.FAIL;
+import static uk.co.thirstybear.blink1jenkins.jenkins.JenkinsState.PASS;
 
 public class JenkinsViewTest {
     @Test

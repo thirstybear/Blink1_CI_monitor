@@ -1,4 +1,4 @@
-package uk.co.thirstybear.blink1service.jenkins;
+package uk.co.thirstybear.blink1jenkins.jenkins;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-import static uk.co.thirstybear.blink1service.jenkins.JenkinsState.FAIL;
-import static uk.co.thirstybear.blink1service.jenkins.JenkinsState.PASS;
+import static uk.co.thirstybear.blink1jenkins.jenkins.JenkinsState.FAIL;
+import static uk.co.thirstybear.blink1jenkins.jenkins.JenkinsState.PASS;
 
 
 public class JenkinsView {

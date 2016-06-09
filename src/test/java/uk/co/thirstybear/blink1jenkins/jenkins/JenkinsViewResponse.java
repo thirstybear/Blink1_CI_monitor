@@ -1,4 +1,4 @@
-package uk.co.thirstybear.blink1service.jenkins;
+package uk.co.thirstybear.blink1jenkins.jenkins;
 
 public class JenkinsViewResponse implements JenkinsResponse {
     private final static String json = "{\n" +

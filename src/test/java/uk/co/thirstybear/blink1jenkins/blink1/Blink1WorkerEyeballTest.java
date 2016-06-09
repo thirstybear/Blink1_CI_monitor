@@ -1,4 +1,4 @@
-package uk.co.thirstybear.blink1service.blink1;
+package uk.co.thirstybear.blink1jenkins.blink1;
 
 
 public class Blink1WorkerEyeballTest {

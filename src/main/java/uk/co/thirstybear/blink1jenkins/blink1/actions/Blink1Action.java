@@ -1,4 +1,4 @@
-package uk.co.thirstybear.blink1service.blink1.actions;
+package uk.co.thirstybear.blink1jenkins.blink1.actions;
 
 public enum Blink1Action {
     SOLIDRED("blink1-tool --red"),

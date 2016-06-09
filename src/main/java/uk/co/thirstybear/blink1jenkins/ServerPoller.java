@@ -1,9 +1,9 @@
-package uk.co.thirstybear.blink1service;
+package uk.co.thirstybear.blink1jenkins;
 
-import uk.co.thirstybear.blink1service.blink1.Blink1Worker;
-import uk.co.thirstybear.blink1service.jenkins.JenkinsState;
-import uk.co.thirstybear.blink1service.jenkins.JenkinsView;
-import uk.co.thirstybear.blink1service.jenkins.JenkinsViewException;
+import uk.co.thirstybear.blink1jenkins.blink1.Blink1Worker;
+import uk.co.thirstybear.blink1jenkins.jenkins.JenkinsState;
+import uk.co.thirstybear.blink1jenkins.jenkins.JenkinsView;
+import uk.co.thirstybear.blink1jenkins.jenkins.JenkinsViewException;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,7 +37,12 @@ class ServerPoller extends TimerTask {
     }
 
     public static void main(String[] args) {
-        String ciServerUrl = args[1];
+
+        for(String arg: args) {
+            System.out.println(arg);
+        }
+
+        String ciServerUrl = args[0];
 
         final ServerPoller serverPoller = new ServerPoller(ciServerUrl);
 

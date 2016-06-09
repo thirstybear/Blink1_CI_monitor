@@ -1,6 +1,6 @@
-package uk.co.thirstybear.blink1service.blink1;
+package uk.co.thirstybear.blink1jenkins.blink1;
 
-import static uk.co.thirstybear.blink1service.blink1.actions.Blink1Action.*;
+import static uk.co.thirstybear.blink1jenkins.blink1.actions.Blink1Action.*;
 
 public class Blink1Worker {
 

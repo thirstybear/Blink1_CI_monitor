@@ -1,15 +1,15 @@
-package uk.co.thirstybear.blink1service;
+package uk.co.thirstybear.blink1jenkins;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import uk.co.thirstybear.blink1service.blink1.Blink1Worker;
-import uk.co.thirstybear.blink1service.jenkins.JenkinsResponse;
-import uk.co.thirstybear.blink1service.jenkins.JenkinsSingleJobResponse;
-import uk.co.thirstybear.blink1service.jenkins.JenkinsView;
-import uk.co.thirstybear.blink1service.jenkins.JenkinsViewResponse;
+import uk.co.thirstybear.blink1jenkins.blink1.Blink1Worker;
+import uk.co.thirstybear.blink1jenkins.jenkins.JenkinsResponse;
+import uk.co.thirstybear.blink1jenkins.jenkins.JenkinsSingleJobResponse;
+import uk.co.thirstybear.blink1jenkins.jenkins.JenkinsView;
+import uk.co.thirstybear.blink1jenkins.jenkins.JenkinsViewResponse;
 
 import javax.ws.rs.core.Response;
 

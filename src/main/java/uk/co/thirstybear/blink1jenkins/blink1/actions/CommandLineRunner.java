@@ -1,4 +1,4 @@
-package uk.co.thirstybear.blink1service.blink1.actions;
+package uk.co.thirstybear.blink1jenkins.blink1.actions;
 
 import java.io.InputStream;
 

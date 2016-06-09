@@ -1,13 +1,13 @@
-package uk.co.thirstybear.blink1service;
+package uk.co.thirstybear.blink1jenkins;
 
 import org.junit.Test;
-import uk.co.thirstybear.blink1service.blink1.Blink1Worker;
-import uk.co.thirstybear.blink1service.jenkins.JenkinsView;
-import uk.co.thirstybear.blink1service.jenkins.JenkinsViewException;
+import uk.co.thirstybear.blink1jenkins.blink1.Blink1Worker;
+import uk.co.thirstybear.blink1jenkins.jenkins.JenkinsView;
+import uk.co.thirstybear.blink1jenkins.jenkins.JenkinsViewException;
 
 import static org.mockito.Mockito.*;
-import static uk.co.thirstybear.blink1service.jenkins.JenkinsState.FAIL;
-import static uk.co.thirstybear.blink1service.jenkins.JenkinsState.PASS;
+import static uk.co.thirstybear.blink1jenkins.jenkins.JenkinsState.FAIL;
+import static uk.co.thirstybear.blink1jenkins.jenkins.JenkinsState.PASS;
 
 public class ServerPollerTest {
     @Test
