@@ -1,5 +1,5 @@
-# Blink1_CI_monitor
-A Jenkins CI monitor using the Blink(1) light, written in Java.
+# Blink(1) CI monitor
+A CI monitor using the Blink(1) light, written in Java. Currently only understands Jenkins CI servers. 
 
 Syntax:
 
