@@ -13,7 +13,7 @@ class ServerPoller extends TimerTask {
     private final JenkinsView jenkinsView;
     private final Blink1Worker blink1Worker;
 
-    public ServerPoller(String jenkinsUrlString) {
+    private ServerPoller(String jenkinsUrlString) {
         this(new JenkinsView(jenkinsUrlString), new Blink1Worker());
     }
 
