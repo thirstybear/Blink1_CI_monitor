@@ -16,6 +16,7 @@ public class UrlReader {
         this.url = url;
     }
 
+    //TODO tidy this up
     public String get() throws IOException {
         InputStream in = new URL(url).openStream();
 
