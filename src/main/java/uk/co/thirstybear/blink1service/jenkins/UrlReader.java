@@ -6,25 +6,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-public class UrlReader {
+class UrlReader {
     private final String url;
 
-    public UrlReader(String url) {
+    UrlReader(String url) {
         if (!url.startsWith("http://")) {
             url = "http://" + url;
         }
         this.url = url;
     }
 
-    //TODO tidy this up
-    public String get() throws IOException {
-        InputStream in = new URL(url).openStream();
-
+    String get() throws IOException {
         String data;
-        try {
+        try (InputStream in = new URL(url).openStream()){
             data = IOUtils.toString(in);
-        } finally {
-            IOUtils.closeQuietly(in);
         }
         return data;
     }

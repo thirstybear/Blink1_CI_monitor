@@ -13,4 +13,8 @@ public class Blink1Worker {
         FLASHGREEN.apply();
         SOLIDGREEN.apply();
     }
+
+    public void oops() {
+        FLASHRED_CONTINUOUS.apply();
+    }
 }

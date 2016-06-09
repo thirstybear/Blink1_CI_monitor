@@ -15,7 +15,7 @@ public class JenkinsView {
     private final UrlReader urlReader;
 
     public JenkinsView (String url) {
-        this(new UrlReader(url));
+        this(new UrlReader(url + "/api/json"));
     }
 
     JenkinsView(UrlReader urlReader) {

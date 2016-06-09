@@ -3,6 +3,7 @@ package uk.co.thirstybear.blink1service;
 import uk.co.thirstybear.blink1service.blink1.Blink1Worker;
 import uk.co.thirstybear.blink1service.jenkins.JenkinsState;
 import uk.co.thirstybear.blink1service.jenkins.JenkinsView;
+import uk.co.thirstybear.blink1service.jenkins.JenkinsViewException;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,10 +25,14 @@ class ServerPoller extends TimerTask {
 
     @Override
     public void run() {
-        if (jenkinsView.status().equals(JenkinsState.PASS)) {
-            blink1Worker.buildPassed();
-        } else {
-            blink1Worker.buildFailed();
+        try {
+            if (jenkinsView.status().equals(JenkinsState.PASS)) {
+                blink1Worker.buildPassed();
+            } else {
+                blink1Worker.buildFailed();
+            }
+        } catch (JenkinsViewException e) {
+            blink1Worker.oops();
         }
     }
 

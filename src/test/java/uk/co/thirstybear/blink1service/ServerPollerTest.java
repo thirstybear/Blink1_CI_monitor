@@ -3,6 +3,7 @@ package uk.co.thirstybear.blink1service;
 import org.junit.Test;
 import uk.co.thirstybear.blink1service.blink1.Blink1Worker;
 import uk.co.thirstybear.blink1service.jenkins.JenkinsView;
+import uk.co.thirstybear.blink1service.jenkins.JenkinsViewException;
 
 import static org.mockito.Mockito.*;
 import static uk.co.thirstybear.blink1service.jenkins.JenkinsState.FAIL;
@@ -10,7 +11,7 @@ import static uk.co.thirstybear.blink1service.jenkins.JenkinsState.PASS;
 
 public class ServerPollerTest {
     @Test
-    public void whenBuildFailsTurnBlinkRed() throws Exception {
+    public void turnsBlinkRedWhenBuildFails() throws Exception {
         JenkinsView mockJenkinsView = mock(JenkinsView.class);
         when(mockJenkinsView.status()).thenReturn(FAIL);
 
@@ -19,11 +20,11 @@ public class ServerPollerTest {
         new ServerPoller(mockJenkinsView, mockBlink1Worker).run();
 
         verify(mockBlink1Worker).buildFailed();
-        verify(mockBlink1Worker, times(0)).buildPassed();
+        verifyNoMoreInteractions(mockBlink1Worker);
     }
 
     @Test
-    public void whenBuildPassesTurnBlinkGreen() throws Exception {
+    public void turnsBlinkGreenWhenBuildPasses() throws Exception {
         JenkinsView mockJenkinsView = mock(JenkinsView.class);
         when(mockJenkinsView.status()).thenReturn(PASS);
 
@@ -31,7 +32,20 @@ public class ServerPollerTest {
 
         new ServerPoller(mockJenkinsView, mockBlink1Worker).run();
 
-        verify(mockBlink1Worker, times(0)).buildFailed();
         verify(mockBlink1Worker).buildPassed();
+        verifyNoMoreInteractions(mockBlink1Worker);
+    }
+
+    @Test
+    public void flashesBlinkContinuouslyWhenUrlInvalid() {
+        JenkinsView mockJenkinsView = mock(JenkinsView.class);
+        when(mockJenkinsView.status()).thenThrow(new JenkinsViewException(null));
+
+        Blink1Worker mockBlink1Worker = mock(Blink1Worker.class);
+
+        new ServerPoller(mockJenkinsView, mockBlink1Worker).run();
+
+        verify(mockBlink1Worker).oops();
+        verifyNoMoreInteractions(mockBlink1Worker);
     }
 }
